@@ -1,0 +1,180 @@
+/* ── Reset & base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f0f13;
+  color: #e0e0e0;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Layout ── */
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 24px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  color: #a0a0b0;
+}
+
+/* ── Hold button ── */
+.hold-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.hold-btn {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 4px solid #444;
+  background: #1e1e28;
+  color: #e0e0e0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+.hold-btn:active,
+.hold-btn.pressing {
+  background: #2a2a3a;
+  border-color: #7c7cff;
+  transform: scale(0.97);
+}
+
+.btn-label {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.btn-sub {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* ── List section ── */
+.list-section {
+  flex: 1;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.list-header h2 {
+  font-size: 1.1rem;
+  color: #a0a0b0;
+}
+
+/* ── Reset button ── */
+.reset-btn {
+  background: transparent;
+  border: 1.5px solid #555;
+  color: #aaa;
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.reset-btn:hover {
+  border-color: #e05555;
+  color: #e05555;
+}
+
+/* ── Time list ── */
+.time-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+}
+
+.time-list li {
+  background: #1a1a22;
+  border: 1.5px solid #2e2e3e;
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.05rem;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* Top-3 highlight tiers */
+.time-list li.top-1 {
+  background: #0e2a1a;
+  border-color: #2ecc71;
+  color: #2ecc71;
+}
+
+.time-list li.top-2 {
+  background: #0b2219;
+  border-color: #27ae60;
+  color: #a8e6c0;
+}
+
+.time-list li.top-3 {
+  background: #0a1e16;
+  border-color: #1e8449;
+  color: #88c9a0;
+}
+
+.time-list .rank {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  min-width: 28px;
+}
+
+.time-list .duration {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.time-list .timestamp {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #555;
+  font-style: italic;
+  border: none !important;
+  background: transparent !important;
+  justify-content: center !important;
+}
