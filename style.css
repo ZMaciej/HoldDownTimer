@@ -18,27 +18,104 @@ body {
   justify-content: center;
 }
 
-/* ── Layout ── */
+/* ── Layout container ── */
 .container {
   width: 100%;
   max-width: 480px;
-  padding: 24px 16px 40px;
+  /* relative so the absolutely-positioned hold-wrapper is anchored here */
+  position: relative;
+  /* tall enough for the button + list below it */
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* ── Top panel (top-3 leaderboard) ── */
+.top-panel {
+  padding: 20px 16px 12px;
+}
+
+.top-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.top-panel-title {
+  font-size: 1rem;
+  color: #a0a0b0;
+  letter-spacing: 0.04em;
+}
+
+/* ── Reset button ── */
+.reset-btn {
+  background: transparent;
+  border: 1.5px solid #555;
+  color: #aaa;
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  /* ensure a proper touch target on mobile */
+  min-height: 36px;
+}
+
+.reset-btn:hover,
+.reset-btn:focus-visible {
+  border-color: #e05555;
+  color: #e05555;
+  outline: none;
+}
+
+/* ── Compact top-3 list ── */
+.top-list {
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 6px;
 }
 
-h1 {
-  text-align: center;
-  font-size: 1.5rem;
-  letter-spacing: 0.04em;
-  color: #a0a0b0;
+.top-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #1a1a22;
+  border: 1.5px solid #2e2e3e;
+  border-radius: 8px;
+  font-size: 0.95rem;
 }
 
-/* ── Hold button ── */
+.top-list li.rank-1 { background: #0e2a1a; border-color: #2ecc71; color: #2ecc71; }
+.top-list li.rank-2 { background: #0b2219; border-color: #27ae60; color: #a8e6c0; }
+.top-list li.rank-3 { background: #0a1e16; border-color: #1e8449; color: #88c9a0; }
+
+.top-list .medal  { font-size: 1.1rem; flex-shrink: 0; }
+.top-list .t-dur  { font-variant-numeric: tabular-nums; font-weight: 700; }
+
+.top-list-empty {
+  color: #555;
+  font-style: italic;
+  font-size: 0.85rem;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* ── Hold button ──
+   Absolutely positioned so its centre sits exactly at 1/3 from the
+   bottom of the viewport (= 66.67 vh from the top).
+   Button height: 220 px → half = 110 px.
+   Button top edge = 66.67 vh − 110 px.
+── */
 .hold-wrapper {
+  position: absolute;
+  top: calc(66.67vh - 110px);
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
+  pointer-events: none; /* let clicks pass through the wrapper div itself */
 }
 
 .hold-btn {
@@ -57,6 +134,7 @@ h1 {
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  pointer-events: all; /* re-enable on the button itself */
   transition: background 0.15s, border-color 0.15s, transform 0.1s;
   box-shadow: 0 4px 24px rgba(0,0,0,0.5);
 }
@@ -80,38 +158,21 @@ h1 {
   color: #888;
 }
 
-/* ── List section ── */
+/* ── Full list section ──
+   Sits in normal flow; top margin pushes it below the absolute button.
+   Button bottom = 66.67vh − 110px + 220px = 66.67vh + 110px
+   Add 24px gap → margin-top = calc(66.67vh + 134px)
+── */
 .list-section {
-  flex: 1;
+  margin-top: calc(66.67vh + 134px);
+  padding: 0 16px;
 }
 
-.list-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.list-header h2 {
-  font-size: 1.1rem;
+.list-title {
+  font-size: 1rem;
   color: #a0a0b0;
-}
-
-/* ── Reset button ── */
-.reset-btn {
-  background: transparent;
-  border: 1.5px solid #555;
-  color: #aaa;
-  border-radius: 8px;
-  padding: 6px 16px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
-}
-
-.reset-btn:hover {
-  border-color: #e05555;
-  color: #e05555;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
 }
 
 /* ── Time list ── */
@@ -136,23 +197,9 @@ h1 {
 }
 
 /* Top-3 highlight tiers */
-.time-list li.top-1 {
-  background: #0e2a1a;
-  border-color: #2ecc71;
-  color: #2ecc71;
-}
-
-.time-list li.top-2 {
-  background: #0b2219;
-  border-color: #27ae60;
-  color: #a8e6c0;
-}
-
-.time-list li.top-3 {
-  background: #0a1e16;
-  border-color: #1e8449;
-  color: #88c9a0;
-}
+.time-list li.top-1 { background: #0e2a1a; border-color: #2ecc71; color: #2ecc71; }
+.time-list li.top-2 { background: #0b2219; border-color: #27ae60; color: #a8e6c0; }
+.time-list li.top-3 { background: #0a1e16; border-color: #1e8449; color: #88c9a0; }
 
 .time-list .rank {
   font-size: 0.75rem;
@@ -163,11 +210,6 @@ h1 {
 .time-list .duration {
   font-variant-numeric: tabular-nums;
   font-weight: 600;
-}
-
-.time-list .timestamp {
-  font-size: 0.75rem;
-  color: #666;
 }
 
 .empty-msg {

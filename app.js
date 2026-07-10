@@ -12,6 +12,7 @@
   const btnLabel = document.getElementById('btnLabel');
   const btnSub   = document.getElementById('btnSub');
   const resetBtn = document.getElementById('resetBtn');
+  const topList  = document.getElementById('topList');
   const timeList = document.getElementById('timeList');
 
   // ── Persistence ────────────────────────────────────────────────────────────
@@ -39,10 +40,6 @@
   }
 
   function pad2(n) { return String(n).padStart(2, '0'); }
-
-  function formatTime(date) {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  }
 
   // ── Button label helpers ────────────────────────────────────────────────────
   function showIdleLabel() {
@@ -75,8 +72,10 @@
 
   // ── Hold end ───────────────────────────────────────────────────────────────
   function onHoldEnd(e) {
-    e.preventDefault();
+    // Guard first – if we weren't timing, don't interfere with other elements
+    // (calling e.preventDefault() here would swallow taps on the reset button)
     if (startTs === null) return;
+    e.preventDefault();
     const elapsed = Date.now() - startTs;
     startTs = null;
     cancelAnimationFrame(rafId);
@@ -86,11 +85,48 @@
       times.push(elapsed);
       save();
       renderList();
+      renderTopList();
     }
     showIdleLabel();
   }
 
-  // ── Render list ────────────────────────────────────────────────────────────
+  // ── Render top-3 panel ─────────────────────────────────────────────────────
+  const MEDALS = ['🥇', '🥈', '🥉'];
+
+  function renderTopList() {
+    topList.innerHTML = '';
+
+    if (times.length === 0) {
+      const li = document.createElement('li');
+      li.className   = 'top-list-empty';
+      li.textContent = 'No times yet';
+      topList.appendChild(li);
+      return;
+    }
+
+    const top3 = [...times]
+      .sort((a, b) => b - a)
+      .slice(0, 3);
+
+    top3.forEach((ms, i) => {
+      const li = document.createElement('li');
+      li.classList.add(`rank-${i + 1}`);
+
+      const medal = document.createElement('span');
+      medal.className   = 'medal';
+      medal.textContent = MEDALS[i];
+
+      const dur = document.createElement('span');
+      dur.className   = 't-dur';
+      dur.textContent = formatMs(ms);
+
+      li.appendChild(medal);
+      li.appendChild(dur);
+      topList.appendChild(li);
+    });
+  }
+
+  // ── Render full list ────────────────────────────────────────────────────────
   function renderList() {
     timeList.innerHTML = '';
 
@@ -142,6 +178,7 @@
       times = [];
       save();
       renderList();
+      renderTopList();
       showIdleLabel();
     }
   });
@@ -167,5 +204,6 @@
   // ── Init ───────────────────────────────────────────────────────────────────
   load();
   renderList();
+  renderTopList();
   showIdleLabel();
 })();
