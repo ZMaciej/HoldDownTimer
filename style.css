@@ -22,11 +22,57 @@ body {
 .container {
   width: 100%;
   max-width: 480px;
-  /* relative so the absolutely-positioned hold-wrapper is anchored here */
   position: relative;
-  /* tall enough for the button + list below it */
   min-height: 100vh;
   padding-bottom: 40px;
+}
+
+/* ── Tabs ── */
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 14px 16px 8px;
+  background: linear-gradient(180deg, rgba(15, 15, 19, 0.98), rgba(15, 15, 19, 0.8));
+  backdrop-filter: blur(6px);
+}
+
+.tab-btn {
+  min-height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid #343443;
+  background: #181821;
+  color: #a8a8b8;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.tab-btn:hover,
+.tab-btn:focus-visible {
+  border-color: #5b5b77;
+  color: #e2e2f0;
+  outline: none;
+}
+
+.tab-btn.active {
+  border-color: #2ecc71;
+  color: #2ecc71;
+  background: #10261b;
+}
+
+.tab-panel {
+  display: none;
+  min-height: calc(100vh - 64px);
+}
+
+.tab-panel.active {
+  display: block;
 }
 
 /* ── Top panel (top-3 leaderboard) ── */
@@ -144,6 +190,11 @@ body {
   background: #2a2a3a;
   border-color: #7c7cff;
   transform: scale(0.97);
+}
+
+.hold-btn.hold-btn-delay.armed {
+  border-color: #f39c12;
+  background: #2b2112;
 }
 
 .btn-label {
