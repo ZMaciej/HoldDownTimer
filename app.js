@@ -131,6 +131,7 @@
       btnSub,
       resetBtn,
       topList,
+      timeTotal,
       timeList
     } = options;
 
@@ -272,6 +273,7 @@
       if (elapsed >= 50) {
         times.push(elapsed);
         save();
+        renderTotalTime();
         renderList();
         renderTopList();
       }
@@ -292,6 +294,7 @@
         if (elapsed >= 50) {
           times.push(elapsed);
           save();
+          renderTotalTime();
           renderList();
           renderTopList();
         }
@@ -356,6 +359,11 @@
       });
     }
 
+    function renderTotalTime() {
+      const totalMs = times.reduce((sum, value) => sum + value, 0);
+      timeTotal.textContent = totalMs > 0 ? `Total: ${formatMs(totalMs)}` : 'Total: —';
+    }
+
     function renderList() {
       timeList.innerHTML = '';
 
@@ -409,6 +417,7 @@
       if (confirm('Delete all saved times? This cannot be undone.')) {
         times = [];
         save();
+        renderTotalTime();
         renderList();
         renderTopList();
         showIdleLabel();
@@ -444,6 +453,7 @@
     }
 
     load();
+    renderTotalTime();
     renderList();
     renderTopList();
     showIdleLabel();
@@ -487,6 +497,7 @@
     btnSub: document.getElementById('btnSub'),
     resetBtn: document.getElementById('resetBtn'),
     topList: document.getElementById('topList'),
+    timeTotal: document.getElementById('timeTotal'),
     timeList: document.getElementById('timeList')
   });
 
@@ -501,6 +512,7 @@
     btnSub: document.getElementById('btnSubDelay'),
     resetBtn: document.getElementById('resetBtnDelay'),
     topList: document.getElementById('topListDelay'),
+    timeTotal: document.getElementById('timeTotalDelay'),
     timeList: document.getElementById('timeListDelay')
   });
 
